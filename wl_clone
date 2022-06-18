@@ -26,9 +26,9 @@ clone_or_update() {
 		fi
 	fi
 	cd ${dest}
-	git checkout master
+	git checkout master || git checkout main
 	if [ $? != 0 ]; then
-		echo "Error: Problem checking out master"
+		echo "Error: Problem checking out master or main"
 		exit 1
 	fi
 	git pull
@@ -39,6 +39,12 @@ clone_or_update() {
 	cd ${WLROOT}
 }
 
+# try this for libxkbcommon
+# git clone https://github.com/xkbcommon/libxkbcommon.git (in $Home/Wayland) (instead of git://) 
+
+# some repos (like mesa) have moved from master to main
+# so account for what to pull out in clone_or_update
+
 clone_or_update git://anongit.freedesktop.org/wayland/wayland
 clone_or_update git://anongit.freedesktop.org/git/mesa/drm
 clone_or_update git://anongit.freedesktop.org/xcb/proto
@@ -47,7 +53,8 @@ clone_or_update git://anongit.freedesktop.org/xcb/libxcb
 clone_or_update git://anongit.freedesktop.org/xorg/proto/presentproto
 clone_or_update git://anongit.freedesktop.org/xorg/proto/dri3proto
 clone_or_update git://anongit.freedesktop.org/xorg/lib/libxshmfence
-clone_or_update git://github.com/xkbcommon/libxkbcommon
+#clone_or_update git://github.com/xkbcommon/libxkbcommon
+clone_or_update https://github.com/xkbcommon/libxkbcommon
 clone_or_update git://anongit.freedesktop.org/mesa/mesa
 clone_or_update git://anongit.freedesktop.org/pixman
 clone_or_update git://anongit.freedesktop.org/cairo
@@ -63,7 +70,8 @@ if [ ${INCLUDE_XWAYLAND} ]; then
 		clone_or_update git://anongit.freedesktop.org/xorg/lib/libxtrans
 	fi
 
-	clone_or_update git://github.com/anholt/libepoxy
+	#clone_or_update git://github.com/anholt/libepoxy
+	clone_or_update https://github.com/anholt/libepoxy
 	clone_or_update git://anongit.freedesktop.org/xorg/proto/glproto
 	clone_or_update git://anongit.freedesktop.org/xorg/proto/xproto
 	clone_or_update git://anongit.freedesktop.org/xorg/proto/xcmiscproto
